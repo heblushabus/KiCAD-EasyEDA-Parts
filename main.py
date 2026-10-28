@@ -10,6 +10,12 @@ try:
 except ImportError:
     easyeda2kicad = None
 
+# Uses KiCad's EASYEDA2KICAD path variable if the process has it, else the same folder hardcoded
+GLOBAL_LIB_DIR = os.path.expanduser(
+    os.environ.get("EASYEDA2KICAD") or "/home/heblushabus/Documents/easyeda2kicad"
+)
+LIB_NAME = "easyeda2kicad"
+
 # TODO:
 #  - update library tables
 #  - download folder selection
@@ -51,8 +57,7 @@ class Dialog(wx.Dialog):
             style=wx.DEFAULT_DIALOG_STYLE | wx.RESIZE_BORDER | wx.MAXIMIZE_BOX,
         )
 
-        board = pcbnew.GetBoard()
-        download_dir = f"{os.path.dirname(board.GetFileName())}/libs/easyeda/easyeda"
+        download_dir = os.path.join(GLOBAL_LIB_DIR, LIB_NAME)
 
         content = wx.BoxSizer(wx.VERTICAL)
 
